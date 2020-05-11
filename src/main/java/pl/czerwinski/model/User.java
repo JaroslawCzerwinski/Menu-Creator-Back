@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_users")
+	@Column(name="id_user")
     private Long userId;
   
     @Column(name="email", nullable=false)
@@ -28,18 +29,16 @@ public class User implements Serializable {
     @Column(name="password", nullable=false)
     private String password;
 
-	@OneToMany
-    @JoinColumn(name = "days", referencedColumnName="id_users")
+	@OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName="id_user")
     private List<Day> days;
 	
 	 User(){}
 	    
-	    public User(Long userId, String email, String password) {
-	    	super();
-	    	this.userId = userId;
+	 public User(String email, String password) {
 	    	this.email = email;
 	    	this.password = password;
-	    }
+	 }
     
     public Long getUserId() {
     	return userId;

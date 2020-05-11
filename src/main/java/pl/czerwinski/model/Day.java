@@ -6,45 +6,41 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "days")
+@Table(name = "user_days")
 public class Day implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_day")
-	private Long dayId;
-
 	@Column(name = "date", nullable = false)
 	private Date date;
+	
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	@OneToMany
-    @JoinColumn(name = "id_recipes", referencedColumnName="id_day")
+	@OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "date", referencedColumnName="date")
+	@JoinColumn(name = "id_user", referencedColumnName="user_id")
 	private List<Recipe> recipes;
+	
+	
 
 	Day() {}
 
-	public Day(Long dayId, Date date) {
-		super();
-		this.dayId = dayId;
+	public Day( Date date) {
 		this.date = date;
-	}
-
-	public Long getDayId() {
-		return dayId;
-	}
-
-	public void setDayId(Long dayId) {
-		this.dayId = dayId;
 	}
 
 	public Date getDate() {
@@ -65,7 +61,7 @@ public class Day implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Day [dayId=" + dayId + ", date=" + date + ", recipes=" + recipes + "]";
+		return "Day [date=" + date + ", recipes=" + recipes + "]";
 	}
 
 }
