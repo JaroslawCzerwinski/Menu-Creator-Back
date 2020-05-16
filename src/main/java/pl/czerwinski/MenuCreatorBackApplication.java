@@ -14,22 +14,7 @@ import pl.czerwinski.repository.UserRepository;
 public class MenuCreatorBackApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext ctx = SpringApplication.run(MenuCreatorBackApplication.class, args);
+		 SpringApplication.run(MenuCreatorBackApplication.class, args);
 	
-	  List<User> users = new ArrayList<>();
-      users.add(new User("jarek@wp.pl", "strongPassword"));
-      users.add(new User("ania@wp.pl", "testoeHaslo"));
-      users.add(new User("wojtek@wp.pl", "bardzoMocne Hasło"));
-      
-      UserRepository userRepo = ctx.getBean(UserRepository.class);
-      users.forEach(userRepo::save);
-      
-      User firstUser = userRepo.findById(1L).get(); 
-      //System.out.print(firstUser);
-      userRepo.delete(firstUser); 
-      
-      userRepo.findAll().forEach(System.out::println);
-      
-      ctx.close();
 	}
 }
