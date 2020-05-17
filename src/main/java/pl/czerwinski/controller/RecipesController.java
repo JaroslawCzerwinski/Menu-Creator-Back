@@ -18,8 +18,9 @@ import pl.czerwinski.service.RecipeService;
 public class RecipesController {
 	
 	private RecipeService recipeService;
-
-	public RecipesController( RecipeService userService) {
+	
+	
+	public RecipesController(RecipeService userService) {
 		this.recipeService = userService;
 	}
 	
@@ -36,9 +37,8 @@ public class RecipesController {
 	}
 	
 	@PutMapping
-	public boolean updateRecipe(@RequestBody Recipe recipe) {
-		boolean recipeUpdate = recipeService.updateRecipe(recipe);
-		return recipeUpdate;
+	public void updateRecipe(@RequestBody Recipe recipe) {
+		 recipeService.updateRecipe(recipe);
 	}
 	
 	@DeleteMapping

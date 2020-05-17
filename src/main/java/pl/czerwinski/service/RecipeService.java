@@ -1,6 +1,7 @@
 package pl.czerwinski.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,25 @@ public class RecipeService {
 		}
 	}
 
-	public boolean updateRecipe(Recipe recipe) {
+	public void updateRecipe(Recipe recipe) {
+		Optional<Recipe> recipeEntity = recipeRepository.findById(recipe.getRecipeId());
+		Recipe recipeUpdate = recipeEntity.get();
+		recipeUpdate.setDescription(recipe.getDescription());
+		recipeUpdate.setImagePath(recipe.getImagePath());
+		recipeUpdate.setIngredients(recipe.getIngredients());
+		recipeUpdate.setName(recipe.getName());
+		recipeRepository.save(recipeUpdate);
 		
-		return false;
 	}
-
+	
 	public boolean deleteRecipe(Recipe recipe) {
 		recipeRepository.deleteById(recipe.getRecipeId());
-		return false;
+		boolean recipeExist = recipeRepository.existsById(recipe.getRecipeId());
+		if (!recipeExist) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

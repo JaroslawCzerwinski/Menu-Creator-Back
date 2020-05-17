@@ -23,8 +23,16 @@ public class UserService {
 		} else {
 			return false;
 		}
-		
-		
+	}
+
+	public boolean deleteUser(User user) {
+		userRepository.deleteById(user.getUserId());
+		boolean userExist = userRepository.existsById(user.getUserId());
+		if (!userExist) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
