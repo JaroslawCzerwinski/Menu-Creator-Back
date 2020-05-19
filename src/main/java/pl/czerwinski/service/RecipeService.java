@@ -40,7 +40,6 @@ public class RecipeService {
 		recipeUpdate.setIngredients(recipe.getIngredients());
 		recipeUpdate.setName(recipe.getName());
 		recipeRepository.save(recipeUpdate);
-		
 	}
 	
 	public boolean deleteRecipe(Recipe recipe) {

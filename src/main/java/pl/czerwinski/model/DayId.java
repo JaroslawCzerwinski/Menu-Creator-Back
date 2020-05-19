@@ -8,4 +8,5 @@ public class DayId implements Serializable{
 		Date date;
 		User user;
 		
+		
 }

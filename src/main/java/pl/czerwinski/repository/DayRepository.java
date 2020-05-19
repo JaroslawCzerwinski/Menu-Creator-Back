@@ -1,15 +1,14 @@
 package pl.czerwinski.repository;
 
-import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import pl.czerwinski.model.Day;
 import pl.czerwinski.model.DayId;
-import pl.czerwinski.model.User;
+import pl.czerwinski.model.Recipe;
 
-public interface DayRepository extends CrudRepository<Day, DayId>{
+@Repository
+public interface DayRepository extends CrudRepository<Recipe, DayId>{
 
-	List<Day> findAllByUser(User user);
-
+	
 }

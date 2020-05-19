@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,12 +31,15 @@ public class Day implements Serializable {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "date", referencedColumnName="date")
-	@JoinColumn(name = "id_user", referencedColumnName="user_id")
+	@ManyToMany
+    @JoinTable(name = "days_recipes",
+       joinColumns = {@JoinColumn(name="day_date", referencedColumnName="date"),
+    		   	      @JoinColumn(name="id_user", referencedColumnName="user_id")},
+       inverseJoinColumns = {@JoinColumn(name="recipe_id", referencedColumnName="id_recipes")}
+    )
 	private List<Recipe> recipes;
 	
 	

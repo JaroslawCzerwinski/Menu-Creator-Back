@@ -1,6 +1,6 @@
 package pl.czerwinski.controller;
 
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.czerwinski.model.Day;
+import pl.czerwinski.model.Recipe;
 import pl.czerwinski.model.User;
 import pl.czerwinski.service.DaysService;
 
@@ -22,9 +23,16 @@ public class DaysController {
 		this.daysService = daysService;
 	}
 	
-	@PostMapping
-	public List<Day> getDays(@RequestBody User user, Date startDate){
-		List<Day> userDays = daysService.getUserDays(user, startDate);
+	@PostMapping(headers = "action=get-days")
+	public List<Day> getDays(@RequestBody User user){
+		List<Day> userDays = daysService.getUserDays(user);
 		return userDays;
 	}
+	
+	@PostMapping(headers ="action=add-days")
+	public ArrayList<User> addDays(@RequestBody User user){
+		ArrayList<User> tempUser = daysService.addUserDays(user);
+		return tempUser;
+	}
+	
 }
