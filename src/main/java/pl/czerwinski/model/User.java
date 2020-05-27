@@ -3,6 +3,7 @@ package pl.czerwinski.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +22,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_user")
-    private Long userId;
+    private Long id;
   
     @Column(name="email", nullable=false)
     private String email;
@@ -29,8 +30,8 @@ public class User implements Serializable {
     @Column(name="password", nullable=false)
     private String password;
 
-	@OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName="id_user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="user_id", referencedColumnName = "id_user")
     private List<Day> days;
 	
 	 User(){}
@@ -41,11 +42,11 @@ public class User implements Serializable {
 	 }
     
     public Long getUserId() {
-    	return userId;
+    	return id;
     }
     
     public void setUserId(Long userId) {
-    	this.userId = userId;
+    	this.id = userId;
     }
     
     public String getEmail() {
@@ -74,6 +75,7 @@ public class User implements Serializable {
     
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", email=" + email + ", password=" + password + ", days=" + days + "]";
+		return "User [userId=" + id + ", email=" + email + ", password=" + password + ", days=" + days + "]";
 	}
+
 }

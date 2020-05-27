@@ -4,11 +4,10 @@ package pl.czerwinski.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import pl.czerwinski.model.DayId;
-import pl.czerwinski.model.Recipe;
+import pl.czerwinski.model.Day;
 
 @Repository
-public interface DayRepository extends CrudRepository<Recipe, DayId>{
+public interface DayRepository extends CrudRepository<Day, Long>{
 
 	
 }
