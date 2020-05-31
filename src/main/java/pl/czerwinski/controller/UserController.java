@@ -2,6 +2,8 @@ package pl.czerwinski.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,6 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	
 	@GetMapping
 	public List<User> getAllUser(){
 		List<User> users = userService.getAllUsers();
@@ -31,22 +32,15 @@ public class UserController {
 	
 	@PostMapping
 	@RequestMapping(headers = "action=check-user")
-	public boolean checkUser(@RequestBody User user){
-		boolean userExist = userService.findUser(user);
-		return userExist;
-	}
-	
-	@PostMapping
-	@RequestMapping(headers = "action=add-user")
-	public boolean addUser(@RequestBody User user){
-		boolean userAdd = userService.addUser(user);
-		return userAdd;
+	public ResponseEntity<String> checkUser(@RequestBody User user){
+		userService.findUser(user);
+		return new ResponseEntity<String>("User with email "+ user.getEmail() + "exist in data base", HttpStatus.OK);
 	}
 	
 	@DeleteMapping
-	public boolean deleteUser(@RequestBody User user){
-		boolean userDelete = userService.deleteUser(user);
-		return userDelete;
+	public ResponseEntity<String> deleteUser(@RequestBody User user){
+		userService.deleteUser(user);
+		return new ResponseEntity<String>("User with email "+ user.getEmail() + "deleted from data base", HttpStatus.OK);
 	}
 	
 	

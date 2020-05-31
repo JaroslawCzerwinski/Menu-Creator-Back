@@ -8,4 +8,8 @@ import pl.czerwinski.model.Recipe;
 @Repository
 public interface RecipeRepository extends CrudRepository<Recipe, Long>{
 
+	boolean existsByName(String name);
+
+	boolean existsById(Long recipeId);
+
 }

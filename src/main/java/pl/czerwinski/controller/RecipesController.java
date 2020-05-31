@@ -2,6 +2,8 @@ package pl.czerwinski.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,19 +33,20 @@ public class RecipesController {
 	}
 	
 	@PostMapping
-	public boolean addRecipe(@RequestBody Recipe recipe){
-		boolean recipeAdd = recipeService.addRecipe(recipe);
-		return recipeAdd;
+	public ResponseEntity<String> addRecipe(@RequestBody Recipe recipe){
+		recipeService.addRecipe(recipe);
+		return new ResponseEntity<String>("Recipe added correctly", HttpStatus.OK);
 	}
 	
 	@PutMapping
-	public void updateRecipe(@RequestBody Recipe recipe) {
+	public ResponseEntity<String> updateRecipe(@RequestBody Recipe recipe) {
 		 recipeService.updateRecipe(recipe);
+		 return new ResponseEntity<String>("Recipe update correctly", HttpStatus.OK);
 	}
 	
 	@DeleteMapping
-	public boolean deleteRecipe(@RequestBody Recipe recipe) {
-		boolean recipeDelete = recipeService.deleteRecipe(recipe);
-		return recipeDelete;
+	public ResponseEntity<String> deleteRecipe(@RequestBody Recipe recipe) {
+		recipeService.deleteRecipe(recipe);
+		return new ResponseEntity<String>("Recipe deleted", HttpStatus.OK);
 	}
 }

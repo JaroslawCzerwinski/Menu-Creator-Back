@@ -1,11 +1,12 @@
 package pl.czerwinski.service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.czerwinski.exception.MissingIdException;
+import pl.czerwinski.exception.RecipeAlreadyExistException;
 import pl.czerwinski.model.Recipe;
 import pl.czerwinski.repository.RecipeRepository;
 
@@ -13,42 +14,37 @@ import pl.czerwinski.repository.RecipeRepository;
 public class RecipeService {
 
 	private RecipeRepository recipeRepository;
-	
+
 	@Autowired
 	RecipeService(RecipeRepository recipeRepository) {
 		this.recipeRepository = recipeRepository;
 	}
-	
+
 	public ArrayList<Recipe> getRecipes() {
 		return (ArrayList<Recipe>) recipeRepository.findAll();
 	}
 
-	public boolean addRecipe(Recipe recipe) {
-		Recipe recipeAdd = recipeRepository.save(recipe);
-		if(recipeAdd != null) {
-			return true;
+	public void addRecipe(Recipe recipe) {
+		if (recipe.getRecipeId() == null) {
+			recipeRepository.save(recipe);
 		} else {
-			return false;
+			throw new RecipeAlreadyExistException(recipe.getName());
 		}
 	}
 
 	public void updateRecipe(Recipe recipe) {
-		Optional<Recipe> recipeEntity = recipeRepository.findById(recipe.getRecipeId());
-		Recipe recipeUpdate = recipeEntity.get();
-		recipeUpdate.setDescription(recipe.getDescription());
-		recipeUpdate.setImagePath(recipe.getImagePath());
-		recipeUpdate.setIngredients(recipe.getIngredients());
-		recipeUpdate.setName(recipe.getName());
-		recipeRepository.save(recipeUpdate);
-	}
-	
-	public boolean deleteRecipe(Recipe recipe) {
-		recipeRepository.deleteById(recipe.getRecipeId());
-		boolean recipeExist = recipeRepository.existsById(recipe.getRecipeId());
-		if (!recipeExist) {
-			return true;
+		if (recipe.getRecipeId() != null) {
+		recipeRepository.save(recipe);
 		} else {
-			return false;
+			throw new MissingIdException();
+		}
+	}
+
+	public void deleteRecipe(Recipe recipe) {
+		if (recipe.getRecipeId() != null) {
+		recipeRepository.deleteById(recipe.getRecipeId());
+		} else {
+			throw new MissingIdException();
 		}
 	}
 
