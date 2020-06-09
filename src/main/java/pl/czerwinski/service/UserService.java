@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import pl.czerwinski.exception.MissingIdException;
@@ -14,9 +15,12 @@ import pl.czerwinski.model.User;
 import pl.czerwinski.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService  {
 
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	UserService(UserRepository userRepository) {
@@ -51,6 +55,7 @@ public class UserService {
 			 if(userAlreadyExist) {
 				 throw new UserAlreadyExistException(user.getEmail());
 			 } else {
+				 user.setPassword(passwordEncoder.encode(user.getPassword()));
 				 userRepository.save(user);
 			 }
 	}

@@ -34,13 +34,13 @@ public class UserController {
 	@RequestMapping(headers = "action=check-user")
 	public ResponseEntity<String> checkUser(@RequestBody User user){
 		userService.findUser(user);
-		return new ResponseEntity<String>("User with email "+ user.getEmail() + "exist in data base", HttpStatus.OK);
+		return new ResponseEntity<String>("User with email "+ user.getEmail() + " exist in data base", HttpStatus.OK);
 	}
 	
 	@DeleteMapping
 	public ResponseEntity<String> deleteUser(@RequestBody User user){
 		userService.deleteUser(user);
-		return new ResponseEntity<String>("User with email "+ user.getEmail() + "deleted from data base", HttpStatus.OK);
+		return new ResponseEntity<String>("User with email "+ user.getEmail() + " deleted from data base", HttpStatus.OK);
 	}
 	
 	
