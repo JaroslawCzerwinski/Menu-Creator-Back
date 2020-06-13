@@ -32,9 +32,9 @@ public class UserController {
 	
 	@PostMapping
 	@RequestMapping(headers = "action=check-user")
-	public ResponseEntity<String> checkUser(@RequestBody User user){
-		userService.findUser(user);
-		return new ResponseEntity<String>("User with email "+ user.getEmail() + " exist in data base", HttpStatus.OK);
+	public ResponseEntity<String> checkUser(@RequestBody String username){
+		userService.findUser(username);
+		return new ResponseEntity<String>("User with email "+ username + " exist in data base", HttpStatus.OK);
 	}
 	
 	@DeleteMapping

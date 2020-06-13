@@ -40,9 +40,9 @@ public class RecipeService {
 		}
 	}
 
-	public void deleteRecipe(Recipe recipe) {
-		if (recipe.getRecipeId() != null) {
-		recipeRepository.deleteById(recipe.getRecipeId());
+	public void deleteRecipe(Long recipeId) {
+		if (recipeId != null) {
+		recipeRepository.deleteById(recipeId);
 		} else {
 			throw new MissingIdException();
 		}

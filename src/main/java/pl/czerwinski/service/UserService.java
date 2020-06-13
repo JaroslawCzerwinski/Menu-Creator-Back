@@ -1,8 +1,8 @@
 package pl.czerwinski.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,14 +11,16 @@ import org.springframework.stereotype.Service;
 import pl.czerwinski.exception.MissingIdException;
 import pl.czerwinski.exception.UserAlreadyExistException;
 import pl.czerwinski.exception.UserMissingException;
+import pl.czerwinski.model.Day;
 import pl.czerwinski.model.User;
 import pl.czerwinski.repository.UserRepository;
 
 @Service
-public class UserService  {
+public class UserService {
 
+	private final int dayInMilliseconds = 86400000;
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -35,15 +37,15 @@ public class UserService  {
 		return users;
 	}
 
-	public void findUser(User user) {
-		User userExist = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+	public void findUser(String username) {
+		User userExist = userRepository.findByEmail(username);
 		if (userExist == null) {
 			throw new UserMissingException();
 		}
 	}
 
 	public void deleteUser(User user) {
-		if(user.getUserId() != null) {
+		if (user.getUserId() != null) {
 			userRepository.deleteById(user.getUserId());
 		} else {
 			throw new MissingIdException();
@@ -51,12 +53,34 @@ public class UserService  {
 	}
 
 	public void addNewUser(User user) {
-			 boolean userAlreadyExist = userRepository.existsByEmail(user.getEmail());
-			 if(userAlreadyExist) {
-				 throw new UserAlreadyExistException(user.getEmail());
-			 } else {
-				 user.setPassword(passwordEncoder.encode(user.getPassword()));
-				 userRepository.save(user);
-			 }
+		boolean userAlreadyExist = userRepository.existsByEmail(user.getEmail());
+		if (userAlreadyExist) {
+			throw new UserAlreadyExistException(user.getEmail());
+		} else {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			ArrayList<Day> emptyDays = initNewUserEmptyDays();
+			user.setDays(emptyDays);
+			userRepository.save(user);
+		}
 	}
+
+	private ArrayList<Day> initNewUserEmptyDays() {
+		ArrayList<Day> emptyDays = new ArrayList<Day>();
+		
+		for (int i = 0; i < 5; i++) {
+			Day day = new Day();
+			Date tempDate = new Date(System.currentTimeMillis() + dayInMilliseconds * i );
+			day.setDate(tempDate);
+			emptyDays.add(day);
+		}
+		
+		for (int i = 1; i < 5; i++) {
+			Day day = new Day();
+			Date tempDate = new Date(System.currentTimeMillis() - dayInMilliseconds * i );
+			day.setDate(tempDate);
+			emptyDays.add(day);
+		}
+		return emptyDays;
+	}
+
 }

@@ -45,8 +45,8 @@ public class RecipesController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<String> deleteRecipe(@RequestBody Recipe recipe) {
-		recipeService.deleteRecipe(recipe);
+	public ResponseEntity<String> deleteRecipe(@RequestBody Long recipeId) {
+		recipeService.deleteRecipe(recipeId);
 		return new ResponseEntity<String>("Recipe deleted", HttpStatus.OK);
 	}
 }
