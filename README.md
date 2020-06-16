@@ -1,6 +1,6 @@
 # Menu Creator - Back
 ---
-Back part of simple menu creator aplication created by Spring using MySQL database.
+Back part of simple menu creator aplication created by Spring and MySQL database.
 
 ### Table of contents
 * [General Info](#general-info)
