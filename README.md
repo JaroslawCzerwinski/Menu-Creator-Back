@@ -19,9 +19,9 @@ Application used for meal planning, created for own use and consolidation of kno
 ---
 ### Technologies
 Project is created with:
-Spring 2.2.7
-Java 11.0
-MySQL Workbench 8.0.20
+- Spring 2.2.7
+- Java 11.0
+- MySQL Workbench 8.0.20
 
 ### Status
 ---
